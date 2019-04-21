@@ -6,7 +6,7 @@ CXXFLAGS  =  -Wall -g
 LDFLAGS   =  -L$(SYSTEMC)/lib-$(ARCH)
 LDLIBS    =  -lsystemc
 
-OBJS	  = logique vector arbitrary_int
+OBJS	  = logique vector arbitrary_int fixed_point
 
 all : $(OBJS)
 
