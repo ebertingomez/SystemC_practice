@@ -6,4 +6,9 @@ CXXFLAGS  =  -Wall -g
 LDFLAGS   =  -L$(SYSTEMC)/lib-$(ARCH)
 LDLIBS    =  -lsystemc
 
-all : hello
+OBJS	  = logique vector arbitrary_int
+
+all : $(OBJS)
+
+clean: 
+	rm -rf $(OBJS)
