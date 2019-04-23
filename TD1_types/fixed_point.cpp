@@ -22,8 +22,7 @@ void sc_fixed_exemple(){
         << "Error  " << e   << endl;
 }
 
-double compare (double d1, double d2)
-{
+double compare (double d1, double d2){
    double ds = d1 + d2;
    sc_fix f1(d1);
    sc_fix f2(d2);
@@ -60,19 +59,26 @@ void sc_fix_exemple(){
       << " is " <<  compare(d1,d2)  << endl;
 }
 
-int find_precision(double precision, int n){
-    double ref_value = M_PI * sin (M_PI / 256. * n);
-    int bits = 0;
-    double error;
-    do {
-        bits++;
-        sc_fxtype_params param(3+bits,3);
-        sc_fxtype_context ctxt(param);
-        sc_fix comp(ref_value);
-        error = abs(ref_value - comp);
-     }
-     while ( error > precision );
-     return bits;
+int find_precision(double precision){
+   int bits = 0;
+   double error;
+   double ref_value;
+   int tmp_bits;
+   for (int i = 0 ; i < 255 ; i++){
+      ref_value = M_PI * sin (M_PI / 256. * i);
+      tmp_bits = 0;
+      do {
+         tmp_bits++;
+         sc_fxtype_params param(3+tmp_bits,3);
+         sc_fxtype_context ctxt(param);
+         sc_fix comp(ref_value);
+         error = abs(ref_value - comp);
+      }
+      while ( error > precision );
+      bits = (tmp_bits > bits)? tmp_bits: bits;
+   }
+
+   return bits;
 }
 int sc_main (int argc, char * argv[])
 {
@@ -81,9 +87,9 @@ int sc_main (int argc, char * argv[])
     cout<<"_________Fix Example________"<<endl;
     sc_fix_exemple();
     
-    int n1 = find_precision(0.01, 1);
-    int n2 = find_precision(0.001, 1);
-    int n3 = find_precision(0.0001, 1);
+    int n1 = find_precision(0.01);
+    int n2 = find_precision(0.001);
+    int n3 = find_precision(0.0001);
 
     cout<<"_________Precision Example________"<<endl;
     cout
