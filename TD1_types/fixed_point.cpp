@@ -61,22 +61,23 @@ void sc_fix_exemple(){
 
 int find_precision(double precision){
    int bits = 0;
-   double error;
+   double error = 0;
    double ref_value;
-   int tmp_bits;
-   for (int i = 0 ; i < 255 ; i++){
-      ref_value = M_PI * sin (M_PI / 256. * i);
-      tmp_bits = 0;
-      do {
-         tmp_bits++;
-         sc_fxtype_params param(3+tmp_bits,3);
+   double tmp_error;
+
+   do {
+      bits++;
+      error = 0;
+      for (int i = 0 ; i < 127 ; i++){
+         ref_value = M_PI * sin (M_PI / 256. * i);
+         sc_fxtype_params param(3+bits,3);
          sc_fxtype_context ctxt(param);
          sc_fix comp(ref_value);
-         error = abs(ref_value - comp);
+         tmp_error = abs(ref_value - comp);
+         error = (error>tmp_error)?error:tmp_error;
       }
-      while ( error > precision );
-      bits = (tmp_bits > bits)? tmp_bits: bits;
    }
+   while ( error > precision );
 
    return bits;
 }
