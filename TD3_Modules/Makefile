@@ -6,7 +6,7 @@ CXXFLAGS  =  -Wall -g
 LDFLAGS   =  -L$(SYSTEMC)/lib-$(ARCH)
 LDLIBS    =  -lsystemc
 
-OBJS	  = mod_example
+OBJS	  = mod_example foobar export_example
 
 all : $(OBJS)
 
