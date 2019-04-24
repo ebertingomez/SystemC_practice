@@ -4,7 +4,7 @@ int sc_main(int argc, char * argv[]) {
 
    sc_trace_file *trace_f;
    trace_f = sc_create_vcd_trace_file ("clock");
-   trace_f->set_time_unit(1,SC_NS);
+   trace_f->set_time_unit(100,SC_PS);
 
    // une horloge de période 10ns
    sc_clock ck1("ck1",10,SC_NS);
