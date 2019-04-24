@@ -44,12 +44,15 @@ int sc_main (int argc, char * argv[])
     for (int i = 0 ; i<10 ; i++){
         P = Pixel_t(counter1,counter2,counter3);
         counter1++;
+        cout << "--> @ " << sc_time_stamp() << " P = " << P << endl;
         sc_start(1,SC_NS);
         P = Pixel_t(counter1,counter2,counter3);
         counter2++;
+        cout << "--> @ " << sc_time_stamp() << " P = " << P << endl;
         sc_start(1,SC_NS);
         P = Pixel_t(counter1,counter2,counter3);
         counter3++;
+        cout << "--> @ " << sc_time_stamp() << " P = " << P << endl;
         sc_start(1,SC_NS);
     }
    sc_close_vcd_trace_file(trace_f);

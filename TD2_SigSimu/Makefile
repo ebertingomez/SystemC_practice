@@ -6,7 +6,7 @@ CXXFLAGS  =  -Wall -g
 LDFLAGS   =  -L$(SYSTEMC)/lib-$(ARCH)
 LDLIBS    =  -lsystemc
 
-OBJS	  = example traces signal_example pixel
+OBJS	  = example traces signal_example pixel time
 
 all : $(OBJS)
 
