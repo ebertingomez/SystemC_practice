@@ -23,9 +23,9 @@ struct Pixel_t
 
    void inc(){
       switch(step){
-         0: R++; step++;break;
-         1: G++; step++;break;
-         2: B++; step=0;break;
+         case 0: R++; step++;break;
+         case 1: G++; step++;break;
+         case 2: B++; step=0;break;
       }
    }
 
