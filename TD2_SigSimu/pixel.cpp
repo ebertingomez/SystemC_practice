@@ -20,6 +20,28 @@ struct Pixel_t
       o << "{ R = " << P.R << ", G = " << P.G << ", B = "<< P.B <<" }" ;
       return o;
    }
+
+   void inc(){
+      switch(step){
+         case 0: R++; step++;break;
+         case 1: G++; step++;break;
+         case 2: B++; step=0;break;
+      }
+   }
+
+   Pixel_t operator++ (int) const {
+      Pixel_t p = *this;
+      p.inc();
+      return p;
+   }
+
+   Pixel_t& operator++ () {
+      inc();
+      return *this;
+   }
+
+   private:
+   int step {0};
 };
 
 void sc_trace( sc_trace_file* _f, const Pixel_t& _Pixel, const std::string& _s ) {
@@ -38,6 +60,7 @@ int sc_main (int argc, char * argv[])
    sc_signal<Pixel_t> P;
 
    sc_trace(trace_f, P, "P");
+<<<<<<< HEAD
    int counter1 = 0;
    int counter2 = 0;
    int counter3 = 0;
@@ -52,6 +75,10 @@ int sc_main (int argc, char * argv[])
         sc_start(1,SC_NS);
         P = Pixel_t(counter1,counter2,counter3);
         counter3++;
+=======
+    for (int i = 0 ; i<10 ; i++){
+        P = P.read()++;
+>>>>>>> Classwork
         cout << "--> @ " << sc_time_stamp() << " P = " << P << endl;
         sc_start(1,SC_NS);
     }
