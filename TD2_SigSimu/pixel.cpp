@@ -60,25 +60,8 @@ int sc_main (int argc, char * argv[])
    sc_signal<Pixel_t> P;
 
    sc_trace(trace_f, P, "P");
-<<<<<<< HEAD
-   int counter1 = 0;
-   int counter2 = 0;
-   int counter3 = 0;
-    for (int i = 0 ; i<10 ; i++){
-        P = Pixel_t(counter1,counter2,counter3);
-        counter1++;
-        cout << "--> @ " << sc_time_stamp() << " P = " << P << endl;
-        sc_start(1,SC_NS);
-        P = Pixel_t(counter1,counter2,counter3);
-        counter2++;
-        cout << "--> @ " << sc_time_stamp() << " P = " << P << endl;
-        sc_start(1,SC_NS);
-        P = Pixel_t(counter1,counter2,counter3);
-        counter3++;
-=======
-    for (int i = 0 ; i<10 ; i++){
+    for (int i = 0 ; i<30 ; i++){
         P = P.read()++;
->>>>>>> Classwork
         cout << "--> @ " << sc_time_stamp() << " P = " << P << endl;
         sc_start(1,SC_NS);
     }
