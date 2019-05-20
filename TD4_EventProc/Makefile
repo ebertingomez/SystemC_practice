@@ -7,7 +7,7 @@ CXX		  =  g++
 LDFLAGS   =  -L$(SYSTEMC)/lib-$(ARCH)
 LDLIBS    =  -lsystemc
 
-OBJS	  = pixel mod_thread
+OBJS	  = pixel mod_thread mod_method pixel_gen_method pixel_gen_thread pixel_gen_cthread
 
 all : $(OBJS)
 

@@ -4,11 +4,12 @@
 
 struct Pixel_t
 {
-    sc_uint<5> R;
-    sc_uint<6> G;
-    sc_uint<5> B;
+   sc_uint<8> R;
+   sc_uint<8> G;
+   sc_uint<8> B;
+   int step {0};
 
-    Pixel_t(sc_uint<5> _R = 0, sc_uint<6> _G = 0, sc_uint<5> _B = 0):
+   Pixel_t(sc_uint<5> _R = 0, sc_uint<6> _G = 0, sc_uint<5> _B = 0):
     R(_R),G(_G),B(_B){}
 
 
@@ -28,6 +29,7 @@ struct Pixel_t
       R = other.R;
       G = other.G;
       B = other.B;
+      step = other.step;
    }
 
    friend ostream& operator << ( ostream& o, const Pixel_t& P ) {
@@ -37,9 +39,9 @@ struct Pixel_t
 
    void inc(){
       switch(step){
-         case 0: R++; step++;break;
-         case 1: G++; step++;break;
-         case 2: B++; step=0;break;
+         case 0: step=(R==255)?++step:0; R++;break;
+         case 1: step=(G==255)?++step:0; G++;break;
+         case 2: step=0; B++;break;
       }
    }
 
@@ -53,18 +55,10 @@ struct Pixel_t
       inc();
       return *this;
    }
-
-   private:
-   int step {0};
 };
 
 void sc_trace( sc_trace_file* _f, const Pixel_t& _Pixel, const std::string& _s ) {
    sc_trace( _f, _Pixel.R, _s + "R" );
    sc_trace( _f, _Pixel.G, _s + "G" );
    sc_trace( _f, _Pixel.B, _s + "B" );
-}
-
-int sc_main(int argc, char * argv[])
-{
-   return 0;
 }
