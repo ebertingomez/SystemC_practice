@@ -1,5 +1,4 @@
-#include <systemc.h>
-#include "pixel.cpp"
+#include "pixel.hpp"
 
 SC_MODULE(mod_pixel)
 {

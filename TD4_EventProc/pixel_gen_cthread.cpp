@@ -1,5 +1,4 @@
-#include <systemc.h>
-#include "pixel.cpp"
+#include "pixel.hpp"
 
 SC_MODULE(mod_pixel)
 {
@@ -29,10 +28,12 @@ int sc_main(int argc, char * argv[])
 {
    sc_clock clock("clock",20,SC_NS);
    sc_signal<Pixel_t> P_out;
+   sc_signal<bool> r;
 
    mod_pixel pixel("pixel");
    pixel.clock(clock);
    pixel.P_out(P_out);
+   pixel.r(r);
 
    sc_trace_file *trace_f;
    trace_f = sc_create_vcd_trace_file ("pixels_cthread");
