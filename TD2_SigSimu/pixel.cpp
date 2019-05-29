@@ -60,7 +60,7 @@ int sc_main (int argc, char * argv[])
    sc_signal<Pixel_t> P;
 
    sc_trace(trace_f, P, "P");
-    for (int i = 0 ; i<30 ; i++){
+    for (int i = 0 ; i<10 ; i++){
         P = P.read()++;
         cout << "--> @ " << sc_time_stamp() << " P = " << P << endl;
         sc_start(1,SC_NS);

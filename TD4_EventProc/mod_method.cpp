@@ -1,5 +1,4 @@
-#include <systemc.h>
-#include "pixel.cpp"
+#include "pixel.hpp"
 
 SC_MODULE(mod_pixel)
 {
@@ -32,7 +31,7 @@ int sc_main(int argc, char * argv[])
    pixel.P_out(P_out);
 
    sc_trace_file *trace_f;
-   trace_f = sc_create_vcd_trace_file ("pixel_method");
+   trace_f = sc_create_vcd_trace_file("pixel_method");
    trace_f->set_time_unit(1,SC_NS);
    Pixel_t p;
    sc_trace(trace_f, pixel.P_out, "P_out");
