@@ -7,7 +7,7 @@ CXX		  =  g++
 LDFLAGS   =  -L$(SYSTEMC)/lib-$(ARCH)
 LDLIBS    =  -lsystemc
 
-EXEC	  = pgcd
+EXEC	  = mon_pgcd
 
 all : $(EXEC)
 
