@@ -18,9 +18,9 @@ SC_MODULE(mod_pgcd) {
    SC_CTOR(mod_pgcd):clk("clk"),valid("valid"),A("A"),B("B"),ready("ready"),pgcd("pgcd")
    {
        SC_METHOD(mdata);
-       sensitive<<clk;
+       sensitive<<clk.pos();
        SC_METHOD(mcontrol);
-       sensitive<<clk;
+       sensitive<<clk.pos();
    }
 
     void mdata(){
