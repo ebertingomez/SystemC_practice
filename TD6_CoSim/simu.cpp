@@ -105,12 +105,12 @@ int sc_main(int argc, char * argv[])
     sc_trace_file *trace_f;
     trace_f = sc_create_vcd_trace_file ("pgcd");
     trace_f->set_time_unit(10,SC_NS);
-    sc_trace(trace_f, PGCD_0.clk, "clk");
-    sc_trace(trace_f, PGCD_0.pgcd, "pgcd");
-    sc_trace(trace_f, PGCD_0.valid, "valid");
-    sc_trace(trace_f, PGCD_0.ready, "ready");
-    sc_trace(trace_f, PGCD_0.a, "a");
-    sc_trace(trace_f, PGCD_0.a, "b");
+    sc_trace(trace_f, clk, "clk");
+    sc_trace(trace_f, pgcd, "pgcd");
+    sc_trace(trace_f, valid, "valid");
+    sc_trace(trace_f, ready, "ready");
+    sc_trace(trace_f, a, "a");
+    sc_trace(trace_f, a, "b");
 
     sc_start();
 
@@ -118,3 +118,4 @@ int sc_main(int argc, char * argv[])
     
     return 0;
 }
+
