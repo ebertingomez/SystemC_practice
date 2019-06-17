@@ -40,21 +40,21 @@ void VIDEO_IN::gen_sorties()
    {
       if(!reset_done)
          cerr << "modul: " << name() << " démarré sans reset!" << endl;
-      for(int i=0; i<625; i++)
-         for(int j=0; j<874; j++)
+      for(int i=0; i<fHEIGHT; i++)
+         for(int j=0; j<fWIDTH; j++)
          {
             // on attend le prochain coup d'horloge
             wait();
             // Si on est dans la fenêtre active, on sort le pixel courant
-            // Rappel : une trame vidéo fait 874*625, l'image active est de 720*576
-            if((i<576) && (j<720))
+            // Rappel : une trame vidéo fait fWIDTH*fHEIGHT, l'image active est de WIDTH*HEIGHT
+            if((i<HEIGHT) && (j<WIDTH))
                pixel_out = image.pixel[i*image.width+j];
             else
                pixel_out = 0;
 
             // Génération de HREF
             // HREF est actif pendant la sortie des pixels actifs
-            href = (i<576) && (j<720);
+            href = (i<HEIGHT) && (j<WIDTH);
 
             // Génération de VREF
             // VREF est actif pendant les 3 premières lignes d'une image
@@ -102,10 +102,14 @@ void VIDEO_IN::read_image()
    image_read(&image, name_s.str().c_str());
 
    // L'image est lue et chargée en mémoire.
-   // On vérifie quand même que l'image lue a la bonne taille (720*576)
-   if((image.width != 720) || (image.height != 576))
+   // On vérifie quand même que l'image lue a la bonne taille (WIDTH*HEIGHT)
+   if((image.width != WIDTH) || (image.height != HEIGHT))
    {
-      std::cerr << name() << " l'image " << name_s.str() << " n'a pas les bonnes dimensions (720*576)" << endl;
+      std::cerr
+         << name() << " l'image " << name_s.str()
+         << " n'a pas les bonnes dimensions ("
+         << WIDTH << 'x' << HEIGHT
+         << endl;
       exit(-1);
    }
 }

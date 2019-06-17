@@ -70,6 +70,12 @@ SC_MODULE(VIDEO_IN) {
    bool                reset_done;
 
    Image               image;
+
+   // Pour ce projet les dimensions de l'image sont imposées
+   static const int HEIGHT  = 576;
+   static const int WIDTH   = 720;
+   static const int fHEIGHT = HEIGHT+49;
+   static const int fWIDTH  = WIDTH +154;
 };
 
 #endif
