@@ -36,7 +36,9 @@ SC_MODULE(VIDEO_IN) {
    /***************************************************
     *  constructeur
     **************************************************/
-   SC_CTOR(VIDEO_IN):base_name("wallace")
+   VIDEO_IN(sc_module_name n, const std::string & b_n = "wallace"):
+      sc_module(n),
+      base_name(b_n)
    {
       cout << "Instanciation de " << name() <<" ..." ;
 
@@ -52,6 +54,8 @@ SC_MODULE(VIDEO_IN) {
 
       cout << "... réussie" << endl;
    }
+
+   SC_HAS_PROCESS(VIDEO_IN);
 
    /***************************************************
     *  méthodes et champs internes
