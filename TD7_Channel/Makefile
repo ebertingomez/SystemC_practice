@@ -7,9 +7,13 @@ CXX		  =  g++
 LDFLAGS   =  -L$(SYSTEMC)/lib-$(ARCH)
 LDLIBS    =  -lsystemc
 
-EXEC	  = interfaces canal fifo
+OBJS	  = pixel.o
+EXEC	  = interfaces_example canal_example fifo_example
+EXEC      += signal_buffer fifo_thread fifo_method
 
 all : $(EXEC)
+
+fifo : $(OBJS)
 
 clean: 
 	rm -rf $(OBJS) $(EXEC) *.o
