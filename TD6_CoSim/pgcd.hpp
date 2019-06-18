@@ -1,6 +1,5 @@
 #ifndef PGCD_HPP
 #define PGCD_HPP
-#include <stdio.h>
 int compute_pgdc(unsigned int a,unsigned int b){
     if (a == 0 || b == 0)
         return 0;
@@ -15,5 +14,4 @@ int compute_pgdc(unsigned int a,unsigned int b){
     while (diff >0);
     return bigger;
 }
-
-#endif PGCD_HPP
+#endif
