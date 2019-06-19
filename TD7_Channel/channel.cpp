@@ -32,7 +32,7 @@ SC_MODULE(mod_test){
     sc_in<bool> clk;
 
     SC_CTOR(mod_test):clk("clk"){
-        SC_THREAD(f_test);
+        SC_METHOD(f_test);
         sensitive<<clk;
         dont_initialize();
     }
