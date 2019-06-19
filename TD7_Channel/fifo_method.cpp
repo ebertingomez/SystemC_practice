@@ -5,6 +5,15 @@
 #define DATA_SENT 20
 
 SC_MODULE(MOD_PRODUCER){
+    private:
+    Pixel_t pixel;
+    int i {0};
+    bool written;
+
+    int cycles_wait {0};
+    int cycles_count {0};
+
+    public:
     sc_fifo_out<Pixel_t> out;
     sc_in<bool> clock;
     
@@ -13,13 +22,6 @@ SC_MODULE(MOD_PRODUCER){
         sensitive<<clock.pos();
     }
 
-    Pixel_t pixel;
-    int i = 0;
-    bool written;
-
-    int cycles_wait = 0;
-    int cycles_count = 0;
-    
     void f_produce(){
         if (cycles_count < cycles_wait){
             cycles_count++;

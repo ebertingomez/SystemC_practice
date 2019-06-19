@@ -9,7 +9,7 @@ LDLIBS    =  -lsystemc
 
 OBJS	  = pixel.o
 EXEC	  = interfaces_example canal_example fifo_example
-EXEC      += signal_buffer fifo_thread fifo_method
+EXEC      += signal_buffer fifo_thread fifo_method mutex
 
 all : $(EXEC)
 
