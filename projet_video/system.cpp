@@ -52,12 +52,16 @@ int sc_main (int argc, char *argv[])
     sc_signal<bool>                 signal_vref_int1, signal_href_int1;
     sc_signal<unsigned char>        signal_pixel_int1;
 
+    sc_signal<bool>                 signal_vref_int2, signal_href_int2;
+    sc_signal<unsigned char>        signal_pixel_int2;
+
     /********************************************************
      *	Instanciation des modules
      *******************************************************/
 
     VIDEO_IN    video_in("VIDEO_GEN");
     MEAN        mean("mean");
+    ZOOM        zoom("zoom");
     VIDEO_OUT   video_out("VIDEO_READ");
 
     /*********************************************************
@@ -79,11 +83,20 @@ int sc_main (int argc, char *argv[])
     mean.vref_out       (signal_vref_int1);
     mean.pixel_out      (signal_pixel_int1);
 
+    zoom.clk            (signal_clk);
+    zoom.reset_n        (signal_resetn);
+    zoom.href_in        (signal_href_int1);
+    zoom.vref_in        (signal_vref_int1);
+    zoom.pixel_in       (signal_pixel_int1);
+    zoom.href_out       (signal_href_int2);
+    zoom.vref_out       (signal_vref_int2);
+    zoom.pixel_out      (signal_pixel_int2);
+
     video_out.clk        (signal_clk);
     video_out.reset_n    (signal_resetn);
-    video_out.href       (signal_href_int1);
-    video_out.vref       (signal_vref_int1);
-    video_out.pixel_in   (signal_pixel_int1);
+    video_out.href       (signal_href_int2);
+    video_out.vref       (signal_vref_int2);
+    video_out.pixel_in   (signal_pixel_int2);
 
     /*********************************************************
      *	Traces
@@ -110,10 +123,10 @@ int sc_main (int argc, char *argv[])
     TRACE( signal_vref_int1 );
     TRACE( signal_pixel_int1 );
 
-    /* chronogrammes filtre mean */
-    TRACE( signal_href_int1 );
-    TRACE( signal_vref_int1 );
-    TRACE( signal_pixel_int1 );
+    /* chronogrammes filtre zoom */
+    TRACE( signal_href_int2 );
+    TRACE( signal_vref_int2 );
+    TRACE( signal_pixel_int2 );
 
 #undef TRACE
 

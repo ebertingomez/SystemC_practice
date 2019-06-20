@@ -6,7 +6,7 @@
 SC_MODULE(MEAN){
     private:
     Image image;
-    void filter_in(void);
+    void reception(void);
     void filter_out(void);
     int count_in, count_fltr, count_h;
     int sum, n, idx;
@@ -26,7 +26,7 @@ SC_MODULE(MEAN){
     MEAN(sc_module_name n,int _width = 720, int _height = 576):
             sc_module(n)
     {
-        SC_METHOD(filter_in);
+        SC_METHOD(reception);
         sensitive<<clk.pos();
         async_reset_signal_is(reset_n,false);
         dont_initialize();

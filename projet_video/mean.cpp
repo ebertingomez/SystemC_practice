@@ -3,7 +3,7 @@
 #define MAX_WIDTH 874
 #define MAX_HEIGHT 576
 
-void MEAN::filter_in(){
+void MEAN::reception(){
     if (reset_n == false){
         for (int i=0; i<count_in;i++)
             image.pixel[i]=0;
@@ -25,8 +25,7 @@ void MEAN::filter_in(){
 void MEAN::filter_out(){
     if (reset_n == false){
         count_fltr = count_h = 0;
-        href_out = false;
-        vref_out = false;
+        href_out = vref_out = false;
         pixel_out = 0;
     }
     else {
