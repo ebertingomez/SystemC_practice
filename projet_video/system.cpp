@@ -12,6 +12,9 @@
 #include <systemc.h>
 #include <sstream>
 #include "video_in.h"
+#include "video_out.h"
+#include "mean.h"
+#include "zoom.h"
 
 /***************************************************
  *	MAIN
@@ -46,11 +49,16 @@ int sc_main (int argc, char *argv[])
     sc_signal<bool>                 signal_vref, signal_href;
     sc_signal<unsigned char>        signal_pixel;
 
+    sc_signal<bool>                 signal_vref_int1, signal_href_int1;
+    sc_signal<unsigned char>        signal_pixel_int1;
+
     /********************************************************
      *	Instanciation des modules
      *******************************************************/
 
-    VIDEO_IN video_in("VIDEO_GEN");
+    VIDEO_IN    video_in("VIDEO_GEN");
+    MEAN        mean("mean");
+    VIDEO_OUT   video_out("VIDEO_READ");
 
     /*********************************************************
      *	Connexion des composants
@@ -61,6 +69,21 @@ int sc_main (int argc, char *argv[])
     video_in.href       (signal_href);
     video_in.vref       (signal_vref);
     video_in.pixel_out  (signal_pixel);
+
+    mean.clk            (signal_clk);
+    mean.reset_n        (signal_resetn);
+    mean.href_in        (signal_href);
+    mean.vref_in        (signal_vref);
+    mean.pixel_in       (signal_pixel);
+    mean.href_out       (signal_href_int1);
+    mean.vref_out       (signal_vref_int1);
+    mean.pixel_out      (signal_pixel_int1);
+
+    video_out.clk        (signal_clk);
+    video_out.reset_n    (signal_resetn);
+    video_out.href       (signal_href_int1);
+    video_out.vref       (signal_vref_int1);
+    video_out.pixel_in   (signal_pixel_int1);
 
     /*********************************************************
      *	Traces
@@ -81,6 +104,16 @@ int sc_main (int argc, char *argv[])
     TRACE( signal_href );
     TRACE( signal_vref );
     TRACE( signal_pixel );
+
+    /* chronogrammes filtre mean */
+    TRACE( signal_href_int1 );
+    TRACE( signal_vref_int1 );
+    TRACE( signal_pixel_int1 );
+
+    /* chronogrammes filtre mean */
+    TRACE( signal_href_int1 );
+    TRACE( signal_vref_int1 );
+    TRACE( signal_pixel_int1 );
 
 #undef TRACE
 

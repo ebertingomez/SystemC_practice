@@ -1,12 +1,12 @@
-SYSTEMC   ?= /comelec/softs/opt/systemc/current
-ARCH      ?= linux64
+SYSTEMC   ?= /Users/QQINO/Documents/TelecomParisTech/2A/SE/SE207_SystemC/systemc-2.3.3
+ARCH      ?= macosx64
 
 CC        = gcc
 CXX       = g++
 
-CFLAGS   +=  -g -Wall
+CFLAGS   +=  -g -Wall -Wextra
 CPPFLAGS  =  -isystem $(SYSTEMC)/include
-CXXFLAGS  =  -Wall -O2 -g
+CXXFLAGS  =  -Wall -Wextra -O2 -g -std=c++11
 LDFLAGS   =  -g -L$(SYSTEMC)/lib-$(ARCH)
 LDLIBS    =  -lsystemc -pthread -lpng
 
