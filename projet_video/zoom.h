@@ -8,6 +8,7 @@ SC_MODULE(ZOOM){
     Image image;
     void reception(void);
     void zoom_out(void);
+    int idx_recep;
     int count_in, count_h;
     int idx;
     bool pixel_sent, row_sent;
@@ -42,7 +43,7 @@ SC_MODULE(ZOOM){
         pixel_sent = row_sent = false;
         image.width = _width;
         image.height = _height;
-        image.pixel = (unsigned char *) malloc(image.width * image.height * sizeof(char));
+        image.pixel = (unsigned char *) malloc(image.width * image.height / 4 * sizeof(char));
     }
     SC_HAS_PROCESS(ZOOM);
 };
