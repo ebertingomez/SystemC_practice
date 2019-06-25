@@ -111,28 +111,27 @@ SC_MODULE(SeqThread) {
   sc_in<bool> nrst;
   sc_out<sc_uint<3>> Q;
 
-  SC_CTOR("Mod1"){
+  SC_CTOR(SeqThread){
     SC_THREAD(loop);
     sensibility<<clk.pos();
     reset_is(nrst,false);
   }
 
   void loop(){
-    Q<<0;
+    Q==0;
     for(;;){
       for(int i=0; i<4; i++){
-        Q++;
         wait();
+        Q++;
       }
       for(int i=0; i<4; i++){
-        Q--;
         wait();
+        Q--; 
       }
       for(int i=0; i<8; i++){
-        Q++;
         wait();
+        Q++;
       }
-
     }
   }
 
@@ -141,7 +140,43 @@ SC_MODULE(SeqThread) {
 // En utilisant une ou plusieurs SC_METHOD
 SC_MODULE(SeqMethod) {
   sc_in<bool> clk;
-...
+  sc_in<bool> nrst;
+  sc_out<sc_uint<3>> Q;
+
+  boolean was_4 = false;
+  boolean was_0 = false;
+
+  SC_CTOR(SeqMethod){
+    SC_METHOD(function);
+    sensibility<<clk.pos();
+    reset_is(nrst,false);
+  }
+
+  void function(){
+    if(!nrst){
+      Q = 0;
+      was_4 = false;
+      was_0 = false;
+    }
+    else {
+      if (was_4 && !was_0){
+        Q--;
+        if (Q==1){
+          was_0 = true;
+        }
+      }
+      else
+        Q++;
+        if (Q==3 && !was_4){
+          was_4 = true;
+        }
+        if (Q == 7){
+          was_4 = false;
+          was_0 = false;
+        }
+    }
+  }
+
 }
 
 ```
@@ -179,24 +214,65 @@ Pour les synchroniser nous utilisons un `sc_mutex`.
 
 1. Donnez, **dans les grandes lignes**, un exemple de code illustrant ce fonctionnement.
 
-1. Ce modèle est-il synchrone avec l'horloge `clk` ?
+2. Ce modèle est-il synchrone avec l'horloge `clk` ?
 
-1. Donnez, **toujours dans les grandes lignes**, un exemple de code pour modéliser la même fonctionnalité au niveau RTL ?
+3. Donnez, **toujours dans les grandes lignes**, un exemple de code pour modéliser la même fonctionnalité au niveau RTL ?
 
-1. Comparez ces deux modèles du point de vue des ressources nécessaires à la simulation.
+4. Comparez ces deux modèles du point de vue des ressources nécessaires à la simulation.
 
 
 ---
 
 
 ```{.cpp}
-// premier code (thred/mutex)
+
+sc_signal<bool> b;
+sc_mutex m;
+boolean b = true;
+
+void thread1(){
+  for(;;){
+    m.lock();
+      b != b;
+      wait();
+    m.unlock();
+    wait()
+  }
+}
+
+void thread2(){
+  for(;;){
+    m.lock();
+      b != b;
+      wait();
+    m.unlock();
+    wait()
+  }
+}
+
 ...
 ```
 
+### Réponse 5.2
 
 ```{.cpp}
 // second code (rtl)
+
+sc_signal<bool> b;
+sc_mutex m;
+boolean b = true;
+
+void function1(){
+  m.n_lock();
+      b != b;
+  m.unlock();
+}
+
+void function2(){
+  m.n_lock();
+      b != b;
+  m.unlock();
+}
 ...
 ```
 
