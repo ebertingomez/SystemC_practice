@@ -223,6 +223,7 @@ Pour les synchroniser nous utilisons un `sc_mutex`.
 
 ---
 
+### Réponse 5.1
 
 ```{.cpp}
 
@@ -254,6 +255,9 @@ void thread2(){
 ```
 
 ### Réponse 5.2
+Ce modele n'est pas synchrone avec l'horloge clk car dès qu'un thread libère un mutex, l'autre va le prendre sans prendre en compte le front de l'horloge.
+
+### Réponse 5.3
 
 ```{.cpp}
 // second code (rtl)
