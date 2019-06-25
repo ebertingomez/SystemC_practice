@@ -28,7 +28,7 @@ SC_MODULE(generator) {
         valid.write(true);
         wait(1);
         valid.write(false);
-        for(int i=0;i<10;i++){
+        for(int i=0;i<100;i++){
             wait();
             if (ready.read()){
                 a.write(rand() % 200 + 1);
@@ -38,6 +38,7 @@ SC_MODULE(generator) {
                 valid.write(false);
             }
         }
+        sc_stop();
     }
 
 };
