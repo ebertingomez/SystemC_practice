@@ -266,16 +266,37 @@ sc_signal<bool> b;
 sc_mutex m;
 boolean b = true;
 
+boolean is_mine1 = false;
+boolean is_mine2 = false;
+
 void function1(){
-  m.n_lock();
-      b != b;
-  m.unlock();
+  boolean comp;
+  if ( comp = m.n_lock()){
+    if (comp){
+      is_mine1 = comp;
+    }
+  }
+  else {
+    if (is_mine1){
+      is_mine1 = false;
+      m.unlock()
+    }
+  }
 }
 
 void function2(){
-  m.n_lock();
-      b != b;
-  m.unlock();
+  boolean comp;
+  if ( comp = m.n_lock()){
+    if (comp){
+      is_mine2 = comp;
+    }
+  }
+  else {
+    if (is_mine2){
+      is_mine2 = false;
+      m.unlock()
+    }
+  }
 }
 ...
 ```
