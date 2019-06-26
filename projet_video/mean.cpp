@@ -90,3 +90,32 @@ void MEAN::filter_out(){
         }
     }
 }
+
+int MEAN::compute_mean(int position){
+    int sum = 0;
+    int n   = 0;
+    int idx;
+    for (int i=-1 ; i<2 ; i++){
+        if (position + i*image.width < 0 || 
+            position + i*image.width >= image.width*image.height)
+            continue;
+        for (int j=-1 ; j<2 ; j++){
+            idx = position + i*image.width + j;
+            if (position%image.width + i < 0 ||
+                position%image.width + i >= image.width || 
+                idx != position)
+                continue;
+            sum += image.pixel[idx];
+            n   += 1;
+        }
+    }
+    return sum/n;
+}
+
+int MEAN::compute_gauss(int position){
+    
+}
+
+int MEAN::compute_sobel(int position){
+    
+}

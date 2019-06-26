@@ -8,6 +8,11 @@ SC_MODULE(MEAN){
     Image image;
     void reception(void);
     void filter_out(void);
+
+    int compute_mean(int position);
+    int compute_gauss(int position);
+    int compute_sobel(int position);
+
     int count_in, count_fltr, count_h;
     int sum, n, idx;
 
