@@ -11,6 +11,11 @@ SC_MODULE(MEAN){
     int count_in, count_fltr, count_h;
     int sum, n, idx;
 
+    int MAX_WIDTH, MAX_HEIGHT, counter_reception;
+    bool href_was_false, vhref_was_true, href_found;
+    bool vref_was_false, vref_found;
+
+
     public:
     sc_in<bool> clk;
     sc_in<bool> reset_n;
@@ -36,7 +41,11 @@ SC_MODULE(MEAN){
         async_reset_signal_is(reset_n,false);
         dont_initialize();
 
-        count_in = count_fltr = count_h =0;
+        MAX_WIDTH = MAX_HEIGHT = 100000;
+        href_was_false = vhref_was_true = href_found = false;
+        vref_was_false = vref_found = false;
+
+        count_in = count_fltr = count_h = counter_reception = 0;
         image.width = _width;
         image.height = _height;
         image.pixel = (unsigned char *) malloc(image.width * image.height * sizeof(char));

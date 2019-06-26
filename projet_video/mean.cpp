@@ -1,13 +1,16 @@
 #include "mean.h"
 
-#define MAX_WIDTH 874
-#define MAX_HEIGHT 576
-
 void MEAN::reception(){
     if (reset_n == false){
         for (int i=0; i<count_in;i++)
             image.pixel[i]=0;
         count_in = 0;
+
+        MAX_WIDTH = 10000000;
+        MAX_HEIGHT = 10000000;
+        counter_reception = 0;
+        href_was_false = vhref_was_true = href_found = false;
+        vref_was_false = vref_found = false;
     }
     else{
         if (count_in == image.height*image.width){
@@ -17,7 +20,27 @@ void MEAN::reception(){
             if (href_in == true){
                 image.pixel[count_in] = pixel_in;
                 count_in++;
+
+                vhref_was_true = (!vhref_was_true)?true:vhref_was_true;
             }
+
+            else
+                href_was_false = (!href_was_false && vhref_was_true)?true:href_was_false;
+
+            if (vref_in == false)
+                vref_was_false = (!vref_was_false && vhref_was_true)?true:vref_was_false;
+
+            if (href_was_false && href_in && vhref_was_true && !href_found){
+                href_found = true;
+                MAX_WIDTH = counter_reception;
+            }
+
+            if (vref_was_false && vref_in && vhref_was_true && !vref_found){
+                vref_found = true;
+                MAX_HEIGHT = counter_reception/MAX_WIDTH;
+            }
+            counter_reception = (!vref_found && vhref_was_true) ? counter_reception+1:counter_reception;
+
         }  
     }
 }
@@ -30,7 +53,8 @@ void MEAN::filter_out(){
     }
     else {
         if ( count_h > 0 || (count_in == image.width + 1)){
-            if ( count_h % (MAX_WIDTH) < image.width ){
+            if (    count_h % (MAX_WIDTH) < image.width &&
+                    count_h < image.height*MAX_WIDTH){
                 sum = 0;
                 n   = 0;
                 for (int i=-1 ; i<2 ; i++){
