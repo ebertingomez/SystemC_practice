@@ -23,14 +23,18 @@
 int sc_main (int argc, char *argv[])
 {
     int	ncycles;
+    int filter_type;
 
-    if (argc == 2) {
+    if (argc == 3) {
         std::stringstream arg1(argv[1]);
         arg1 >> ncycles;
+        std::stringstream arg2(argv[2]);
+        arg2 >> filter_type;
     } else {
         cout
            << endl
-           << "Le nombre de cycles de simulation doit être passé en argument (-1 pour une simulation illimitée)"
+           << "Le nombre de cycles de simulation doit être passé en argument (-1 pour une simulation illimitée)\n"
+           << "Le type de filtre doit être passé en argument: Mean=0, Gauss=1, Sobel=2."
            << endl
            ;
         exit(1);
@@ -60,7 +64,7 @@ int sc_main (int argc, char *argv[])
      *******************************************************/
 
     VIDEO_IN    video_in("VIDEO_GEN");
-    MEAN        mean("mean");
+    MEAN        mean("mean",filter_type);
     ZOOM        zoom("zoom");
     VIDEO_OUT   video_out("VIDEO_READ");
 

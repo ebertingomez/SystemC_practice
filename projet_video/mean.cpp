@@ -1,4 +1,5 @@
 #include "mean.h"
+#include <math.h>
 
 void MEAN::reception(){
     if (reset_n == false){
@@ -55,23 +56,22 @@ void MEAN::filter_out(){
         if ( count_h > 0 || (count_in == image.width + 1)){
             if (    count_h % (MAX_WIDTH) < image.width &&
                     count_h < image.height*MAX_WIDTH){
-                sum = 0;
-                n   = 0;
-                for (int i=-1 ; i<2 ; i++){
-                    if (count_fltr + i*image.width < 0 || 
-                        count_fltr + i*image.width >= image.width*image.height)
-                        continue;
-                    for (int j=-1 ; j<2 ; j++){
-                        idx = count_fltr + i*image.width + j;
-                        if (count_fltr%image.width +i < 0 ||
-                            count_fltr%image.width +i >= image.width || 
-                            idx != count_fltr)
-                            continue;
-                        sum += image.pixel[idx];
-                        n   += 1;
-                    }
+                
+                switch (filter)
+                {
+                case AVG:
+                    pixel_out = compute_mean(count_fltr);
+                    break;
+                case GAUSS:
+                    pixel_out = compute_gauss(count_fltr);
+                    break;
+                case SOBEL:
+                    pixel_out = compute_sobel(count_fltr);
+                    break;
+                default:
+                    pixel_out = image.pixel[count_fltr];
                 }
-                pixel_out = (int)(sum/n);
+                
                 href_out  = true;
                 count_fltr++;
             }
@@ -103,7 +103,7 @@ int MEAN::compute_mean(int position){
             idx = position + i*image.width + j;
             if (position%image.width + i < 0 ||
                 position%image.width + i >= image.width || 
-                idx != position)
+                idx == position)
                 continue;
             sum += image.pixel[idx];
             n   += 1;
@@ -112,10 +112,48 @@ int MEAN::compute_mean(int position){
     return sum/n;
 }
 
+const int static conv_kern[] = {1,2,1,2,4,2,1,2,1};
 int MEAN::compute_gauss(int position){
-    
+    int sum = 0;
+    int n   = 0;
+    int idx;
+    for (int i=-1 ; i<2 ; i++){
+        if (position + i*image.width < 0 || 
+            position + i*image.width >= image.width*image.height)
+            continue;
+        for (int j=-1 ; j<2 ; j++){
+            idx = position + i*image.width + j;
+            if (position%image.width + i < 0 ||
+                position%image.width + i >= image.width)
+                continue;
+            sum += image.pixel[idx] * conv_kern[4+ i*3 + j];
+            n   += conv_kern[4+ i*3 + j];
+        }
+    }
+    return sum/n;
 }
 
+
+const int static mat_gx[] = {1,0,-1,2,0,-2,1,0,-1};
+const int static mat_gy[] = {1,2,1,0,0,0,-1,-2,-1};
 int MEAN::compute_sobel(int position){
-    
+    int idx, idx2;
+    int gx = 0;
+    int gy = 0;
+    for (int i=-1 ; i<2 ; i++){
+        if (position + i*image.width < 0 || 
+            position + i*image.width >= image.width*image.height)
+            continue;
+        for (int j=-1 ; j<2 ; j++){
+            idx = position + i*image.width + j;
+            idx2 = 4+ i*3 + j;
+            if (position%image.width + i < 0 ||
+                position%image.width + i >= image.width)
+                continue;
+            gx += image.pixel[idx] * mat_gx[idx2];
+            gy += image.pixel[idx] * mat_gy[idx2];
+        }
+    }
+    return abs(gx) + abs(gy);
+    //return sqrt(pow(gx,2) + pow(gy,2));
 }

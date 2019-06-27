@@ -14,11 +14,13 @@ SC_MODULE(MEAN){
     int compute_sobel(int position);
 
     int count_in, count_fltr, count_h;
-    int sum, n, idx;
 
     int MAX_WIDTH, MAX_HEIGHT, counter_reception;
     bool href_was_false, vhref_was_true, href_found;
     bool vref_was_false, vref_found;
+
+    enum {AVG=0,GAUSS,SOBEL} filter_type;
+    int filter;
 
 
     public:
@@ -33,7 +35,7 @@ SC_MODULE(MEAN){
     sc_out<bool> vref_out;
     sc_out< unsigned char > pixel_out;
 
-    MEAN(sc_module_name n,int _width = 720, int _height = 576):
+    MEAN(sc_module_name n, int _filter = AVG,int _width = 720, int _height = 576):
             sc_module(n)
     {
         SC_METHOD(reception);
@@ -51,6 +53,7 @@ SC_MODULE(MEAN){
         vref_was_false = vref_found = false;
 
         count_in = count_fltr = count_h = counter_reception = 0;
+        filter = _filter;
         image.width = _width;
         image.height = _height;
         image.pixel = (unsigned char *) malloc(image.width * image.height * sizeof(char));
