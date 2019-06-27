@@ -1,9 +1,25 @@
+/**
+ * @file mean.h
+ * @author Enrique GOMEZ
+ * @brief   Ce module se charge d'appliquer un filtre convolutif a une image
+ *          d'entrée. Il faut indiquer le type de filtre comme parametre du module
+ *          0: MEAN
+ *          1: GAUSSIEN
+ *          2: SOBEL
+ * @version 0.1
+ * @date 2019-06-27
+ * 
+ * 
+ * @copyright Copyright (c) 2019
+ * 
+ */
 #ifndef MEAN_H
 #define MEAN_H
 #include <systemc.h>
 #include "image.h"
 
 SC_MODULE(MEAN){
+    /* Methodes et variables internes */
     private:
     Image image;
     void reception(void);
@@ -24,6 +40,7 @@ SC_MODULE(MEAN){
 
 
     public:
+    /** I/O ports */
     sc_in<bool> clk;
     sc_in<bool> reset_n;
 
@@ -35,6 +52,7 @@ SC_MODULE(MEAN){
     sc_out<bool> vref_out;
     sc_out< unsigned char > pixel_out;
 
+    /* Constructeur du Module */
     MEAN(sc_module_name n, int _filter = AVG,int _width = 720, int _height = 576):
             sc_module(n)
     {
