@@ -8,9 +8,14 @@ SC_MODULE(ZOOM){
     Image image;
     void reception(void);
     void zoom_out(void);
+    int idx_recep;
     int count_in, count_h;
     int idx;
     bool pixel_sent, row_sent;
+
+    int MAX_WIDTH, MAX_HEIGHT, counter_reception;
+    bool href_was_false, vhref_was_true, href_found;
+    bool vref_was_false, vref_found;
 
     public:
     sc_in<bool> clk;
@@ -37,12 +42,17 @@ SC_MODULE(ZOOM){
         async_reset_signal_is(reset_n,false);
         dont_initialize();
 
-        count_in = count_h =0;
+        count_in = count_h = counter_reception = 0;
         idx = _width*_height/4 + _width/4;
         pixel_sent = row_sent = false;
+
+        MAX_WIDTH = MAX_HEIGHT = 100000;
+        href_was_false = vhref_was_true = href_found = false;
+        vref_was_false = vref_found = false;
+
         image.width = _width;
         image.height = _height;
-        image.pixel = (unsigned char *) malloc(image.width * image.height * sizeof(char));
+        image.pixel = (unsigned char *) malloc(image.width * image.height / 4 * sizeof(char));
     }
     SC_HAS_PROCESS(ZOOM);
 };
