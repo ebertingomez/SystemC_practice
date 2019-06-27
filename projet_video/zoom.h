@@ -1,9 +1,22 @@
+/**
+ * @file zoom.h
+ * @author Enrique Gomez
+ * @brief This function applies a zoom to the center of an image and sends
+ *          the zoomed bits. It detects the frecuency of the sychronization signals
+ *          href and vref.
+ * @version 0.1
+ * @date 2019-06-27
+ * 
+ * @copyright Copyright (c) 2019
+ * 
+ */
 #ifndef ZOOM_H
 #define ZOOM_H
 #include <systemc.h>
 #include "image.h"
 
 SC_MODULE(ZOOM){
+    /* Methods and internal variables */
     private:
     Image image;
     void reception(void);
@@ -18,6 +31,7 @@ SC_MODULE(ZOOM){
     bool vref_was_false, vref_found;
 
     public:
+    /* I/O Ports */
     sc_in<bool> clk;
     sc_in<bool> reset_n;
 
@@ -29,6 +43,7 @@ SC_MODULE(ZOOM){
     sc_out<bool> vref_out;
     sc_out< unsigned char > pixel_out;
 
+    /* Module Constructor */
     ZOOM(sc_module_name n,int _width = 720, int _height = 576):
             sc_module(n)
     {
